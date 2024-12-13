@@ -133,7 +133,12 @@ func (h *UserHandler) Edit(ctx *gin.Context) {
 		return
 	}
 	sess := sessions.Default(ctx)
-	userId := sess.Get("userId").(int64)
+	idVal := sess.Get("userId")
+	userId, ok := idVal.(int64)
+	if !ok {
+		ctx.String(http.StatusOK, "请先登陆")
+		return
+	}
 	birthday, err := time.Parse(time.DateOnly, req.Birthday)
 	if err != nil {
 		ctx.String(http.StatusOK, "非法的生日格式")
@@ -153,7 +158,12 @@ func (h *UserHandler) Edit(ctx *gin.Context) {
 
 func (h *UserHandler) Profile(ctx *gin.Context) {
 	sess := sessions.Default(ctx)
-	userId := sess.Get("userId").(int64)
+	idVal := sess.Get("userId")
+	userId, ok := idVal.(int64)
+	if !ok {
+		ctx.String(http.StatusOK, "请先登陆")
+		return
+	}
 	user, err := h.svc.Profile(ctx, userId)
 	if err != nil {
 		ctx.String(http.StatusOK, "系统错误")
