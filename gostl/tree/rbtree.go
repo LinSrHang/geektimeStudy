@@ -67,9 +67,9 @@ func (t *RBTree[T]) leftRotate(x *rbNode[T]) {
 	//          |                                  |
 	//          X                                  Y
 	//         / \         left rotate            / \
-	//        α  Y       ------------->         X   γ
+	//        α   Y       ------------->         X   γ
 	//           / \                            / \
-	//          β  γ                           α  β
+	//           β  γ                          α  β
 	y := x.right
 	x.right = y.left
 	if y.left != t.nilNode {
